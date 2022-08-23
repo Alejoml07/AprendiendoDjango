@@ -1,0 +1,39 @@
+{%extends "planta/base.html"%}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario trabajador</title>
+</head>
+<body>
+    {%block contenedor%}
+    <h3>Agregar Trabajador</h3>
+    <form action="{%url 'planta:guardarTrabajador'%}" method="post">
+        {%csrf_token%}
+        <div class="mb-3 mt-3">
+          <label for="email" class="form-label">Cedula:</label>
+          <input type="number" class="form-control" id="" placeholder="Ingrese Cedula" name="cedula">
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" id="" placeholder="Ingrese Nombre" name="nombre">
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Apellido:</label>
+            <input type="text" class="form-control" id="" placeholder="Ingrese Apellido" name="apellido">
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Correo:</label>
+            <input type="email" class="form-control" id="email" placeholder="Ingrese Correo" name="correo">
+          </div>
+        
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+      {%endblock%}
+      
+</body>
+</html>
