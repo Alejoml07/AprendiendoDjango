@@ -41,6 +41,83 @@ def guardarTrabajador(request):
     
     return redirect('planta:listarTrabajador')
 
+def listarProducto(request):
+    q = Producto.objects.all()
+    contexto = {'datos': q}
+
+    return render(request, 'planta/producto/listar_producto.html', contexto)
+
+def formularioProducto(request):
+    q = Categoria.objects.all()
+    contexto = {"cat":q}
+    return render(request, 'planta/producto/nuevo_producto.html',contexto)
+
+
+def guardarProducto(request):
+    try:
+        if request.method == "POST":
+            
+            q = Producto(nombre = request.POST["nombre"],
+                         ficha_tecnica = request.POST["ficha_tecnica"],
+                         costo = request.POST["costo"],
+                         categoria = Categoria.objects.get(pk = request.POST["categoria"]),
+                         color = request.POST["color"])
+            q.save()
+
+            messages.success(request, "Producto guardado exitosamente")
+        else:
+            messages.warning(request, "No se han enviado datos...")
+
+    except Exception as e:
+        messages.error(request, f"Error: {e}")
+    
+    return redirect('planta:listarProducto')
+
+def formularioEditar(request,id):
+    p = Producto.objects.get( pk = id )
+    q = Categoria.objects.all()
+    contexto = {"cat":q, "producto":p}
+    return render(request, 'planta/producto/editar_producto.html',contexto)
+
+def actualizarProducto(request):
+    try:
+        if request.method == "POST":
+            p = Producto.objects.get(pk = request.POST["id"])
+            c = Categoria.objects.get(pk = request.POST["categoria"])
+            
+            
+            p.nombre = request.POST["nombre"]
+            p.ficha_tecnica = request.POST["ficha_tecnica"]
+            p.costo = request.POST["costo"]
+            p.categoria = c
+            p.color = request.POST["color"]
+            p.save()
+
+            messages.success(request, "Producto guardado exitosamente")
+        else:
+            messages.warning(request, "No se han enviado datos...")
+
+    except Exception as e:
+        messages.error(request, f"Error: {e}")
+    
+    return redirect('planta:listarProducto')
+
+def eliminarProducto(request, id):
+    try:
+        p = Producto.objects.get(pk = id)
+        p.delete()
+        messages.success(request, "Producto eliminado exitosamente")
+    except IntegrityError:
+        messages.warning(request, "No se puede eliminar ya que hay otros productos relacionados...")
+    except Exception as e:
+        messages.error(request, f"Error: {e}")
+    
+    return redirect('planta:listarProducto')
+
+        
+
+
+        
 
 
 

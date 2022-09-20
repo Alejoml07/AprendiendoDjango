@@ -1,0 +1,57 @@
+{%extends "planta/base.html"%}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Producto</title>
+</head>
+<body>
+    {%block contenedor%}
+    <h3>Editar Producto</h3>
+    <form action="{%url 'planta:actualizarProducto'%}" method="post">
+        {%csrf_token%}
+        <input type = "hidden" name="id" value = "{{ producto.id }}"/>
+        <div class="mb-3 mt-3">
+          <label for="email" class="form-label">Nombre:</label>
+          <input type="text" class="form-control" id="" placeholder=" " name="nombre" value = "{{producto.nombre}}">
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Ficha Tecnica:</label>
+            <textarea class="form-control" placeholder=" "  name="ficha_tecnica"> {{producto.ficha_tecnica}}</textarea>
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Costo:</label>
+            <input type="number" class="form-control" id="" placeholder=" " name="costo" value = "{{producto.costo}}">
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Categoria:</label>
+            <select class="form-select" name="categoria">
+              <option value = "">Seleccione</option>
+              {%for c in cat %}
+                <option value = "{{c.id}}" {%if producto.categoria.id == c.id %} selected=""{%endif%}>{{c.nombre}} </option>
+
+              {%endfor%}
+            </select>
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="" class="form-label">Color:</label>
+            <select class="form-select" name="color">
+              <option value = "">Seleccione</option>
+              <option value = "r" {%if producto.color == 'r'%} selected=""{%endif%}>ROJO</option>
+              <option value = "v" {%if producto.color == 'v'%} selected=""{%endif%}>VERDE</option>
+              <option value = "a" {%if producto.color == 'a'%} selected=""{%endif%}>AZUL</option>
+
+
+            </select>
+          </div>
+        
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+      {%endblock%}
+      
+</body>
+</html>
